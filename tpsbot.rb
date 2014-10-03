@@ -24,9 +24,8 @@ class TaskLogger
     end
 
     def remove(nick, task_id)
-        task = @db[:tasklog].where(:id => task_id, :nick => nick).first
-        if task
-            task.delete
+        count = @db[:tasklog].where(:id => task_id, :nick => nick).delete
+        if count > 0
             "removed #{task_id} for #{nick}"
         else
             "task #{task_id} not found for #{nick}"
