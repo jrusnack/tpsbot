@@ -184,7 +184,7 @@ bot = Cinch::Bot.new do
     end
 
     # in chat messages e.g. NICK: help
-    on :message, /^#{name}.*help/ do |m|
+    on :message, /\A#{name}[:>]?\shelp\Z/ do |m|
         usage = ''
         commands.values.each do |cmd|
             usage += cmd.usage
@@ -193,12 +193,12 @@ bot = Cinch::Bot.new do
         m.reply usage
     end
 
-    on :message, /^#{name}.*!log (.+)/ do |m, message|
+    on :message, /\A#{name}[:>]?\s!log (.+)/ do |m, message|
         args = message.split(' ')
         m.reply commands[:add].run(m.user.nick, args)
     end
 
-    on :message, /^#{name}.*!ls\s?(.+)?/ do |m, message|
+    on :message, /\A#{name}[:>]?\s!ls\s?(.+)?/ do |m, message|
         args = []
         if message && message.length > 0
             args = message.split(' ')
@@ -206,17 +206,17 @@ bot = Cinch::Bot.new do
         m.reply commands[:list].run(m.user.nick, args)
     end
 
-    on :message, /^#{name}.*!q (.+)/ do |m, message|
+    on :message, /\A#{name}[:>]?\s!q (.+)/ do |m, message|
         args = message.split(' ')
         m.reply commands[:query].run(m.user.nick, args)
     end
 
-    on :message, /^#{name}.*!rm (\d+)/ do |m, task_id|
+    on :message, /\A#{name}[:>]?\s!rm (\d+)/ do |m, task_id|
         m.reply commands[:remove].run(m.user.nick, [task_id])
     end
 
     # in chat private messages e.g. /msg NICK help
-    on :private, /^help/ do |m|
+    on :private, /\Ahelp\Z/ do |m|
         usage = ''
         commands.values.each do |cmd|
             usage += cmd.usage
@@ -225,12 +225,12 @@ bot = Cinch::Bot.new do
         m.reply usage
     end
 
-    on :private, /^!log (.+)/ do |m, message|
+    on :private, /\A!log (.+)/ do |m, message|
         args = message.split(' ')
         m.reply commands[:add].run(m.user.nick, args)
     end
 
-    on :private, /^!ls\s?(.+)?/ do |m, message|
+    on :private, /\A!ls\s?(.+)?/ do |m, message|
         args = []
         if message && message.length > 0
             args = message.split(' ')
@@ -238,12 +238,12 @@ bot = Cinch::Bot.new do
         m.reply commands[:list].run(m.user.nick, args)
     end
 
-    on :private, /^!q (.+)/ do |m, message|
+    on :private, /\A!q (.+)/ do |m, message|
         args = message.split(' ')
         m.reply commands[:query].run(m.user.nick, args)
     end
 
-    on :private, /^!rm (\d+)/ do |m, task_id|
+    on :private, /\A!rm (\d+)/ do |m, task_id|
         m.reply commands[:remove].run(m.user.nick, [task_id])
     end
 end
